@@ -3,22 +3,16 @@ import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
 
 class GoogleAuth extends Component {
-  // state = {
-  //   isSignedIn: null
-  // };
-
   componentDidMount() {
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
           clientId: process.env.REACT_APP_AUTH_KEY,
-          //"579537946505-jl0u10a5lbhnimhcio97lbr1mees5aq0.apps.googleusercontent.com",
           scope: "email"
         })
         .then(() => {
           this.auth = window.gapi.auth2.getAuthInstance();
           this.onAuthChange(this.auth.isSignedIn.get());
-          //this.setState({ isSignedIn: this.auth.isSignedIn.get() });
           this.auth.isSignedIn.listen(this.onAuthChange);
         });
     });
@@ -30,17 +24,14 @@ class GoogleAuth extends Component {
     } else {
       this.props.signOut();
     }
-    //this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   };
 
   handleSignOut = () => {
     this.auth.signOut();
-    //this.onAuthChange();
   };
 
   handleSignIn = () => {
     this.auth.signIn();
-    //this.onAuthChange();
   };
 
   displayAuthButton() {
